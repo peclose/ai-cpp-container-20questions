@@ -1,24 +1,42 @@
-# cpp-container-template
+# Persistent Video Game 20 Questions
 
-## Getting Started
+A C++ command-line game that tries to guess a video game title in 20 yes/no
+questions. When it misses, teach it the correct game and a question that
+distinguishes it from its incorrect guess. The game remembers what it learns
+after restart.
 
-This repository is compatible with [cpp-container](https://github.com/ChicoState/cpp-container). If not already built on your machine, clone and build it.
-
-Run the container:
-
-```bash
-docker run -v "$(pwd)":/usr/src -it cpp-container
-```
-
-Run the application interactively in a shell:
+## Build and run
 
 ```bash
-docker run -v "$(pwd)":/usr/src -it cpp-container sh
+make
+./app
 ```
 
-## Structure
+The program accepts `y`/`yes` and `n`/`no`, ignoring case and surrounding
+spaces. After every round it asks whether to play again.
 
-* `.agents` - AI agent configurations and skills (in `/skills` subdirectory) for this project
-* `.` - The root directory contains the C++ code for the application as well as necessary scripts
-* `specs` - Specification documentation
-* `tests` - Test code
+## Knowledge file
+
+Learned games are saved in `video_game_knowledge.txt` in the directory where
+you run the program. If the file is absent, the game starts with 16 built-in
+titles. To begin again, remove that file before running the game.
+
+## Tests
+
+```bash
+make test
+```
+
+`./test_runner.sh` is also supported and works no matter which directory you
+launch it from.
+
+The tests cover input parsing, tree invariants, teaching in both branches,
+save/load round trips, malformed data, and learning a game across a restart.
+
+## Project layout
+
+- `application.cpp` — terminal game loop and replay flow
+- `game.cpp` — decision-tree and learning logic
+- `persistence.cpp` — knowledge-file save/load logic
+- `tests/` — automated test source
+- `specs/` — approved specification and implementation plan
